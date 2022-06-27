@@ -28,6 +28,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "A prototype SPA application that helps users find public repositories hosted on Github and compare their stats.",
+    "githubUrl": "https://github.com/makki51x3/Masterworks-Interview-Challenge"
   }
 }

@@ -1,13 +1,13 @@
 import axios from "axios";
 import {updateSuggestions} from "../redux/slices/searchSlice"
 
-export const fetchRepos = (dispatch,filter,comparisonList) => {
+export const fetchRepos = (dispatch,filter) => {
     
     // Setup required http headers
     const config = { 
         headers: {
         'accept': 'application/vnd.github.v3+json', 
-        "Authorization": "token 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"
+        "Authorization": "token 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"
         },
     };
 
@@ -20,7 +20,8 @@ export const fetchRepos = (dispatch,filter,comparisonList) => {
             }
         },
         (error) => { // on error
-            // console.log(error);
+            console.log(error);
+            // alert("Problem on connecting to server!");
         }
     );
 };
