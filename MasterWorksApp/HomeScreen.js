@@ -1,11 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, FlatList, SafeAreaView, ImageBackground, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, FlatList, Share, SafeAreaView, ImageBackground, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
-import {updateSuggestionsVisible,updateFilter,updateAddToComparison} from "./redux/slices/searchSlice"
+import {updateSuggestionsVisible,updateAddToComparison} from "./redux/slices/searchSlice"
 import background from './assets/background.png' // relative path to image 
+import {fetchRepos} from './components/fetchRepos'
+import * as WebBrowser from 'expo-web-browser';
+import Constants from 'expo-constants';
 
 export const HomeScreen = ()=>{
+
+  const onOpenWithWebBrowser = (item) => {
+    WebBrowser.openBrowserAsync(item.html_url);
+  };
+
+  const onShare = async (item) => {
+    try {
+      const result = await Share.share({
+        message:
+          ('Github Repo |'+item.full_name+'\n'+ item.html_url )
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      // alert(error.message);
+    }
+  };
 
   // Get data from the redux store
   const dispatch = useDispatch();
@@ -26,7 +53,11 @@ export const HomeScreen = ()=>{
           >          
             <Ionicons name="md-add" size={24} color="black"/>
           </TouchableOpacity>
-          <Text style={styles.title}>{item.title}</Text>
+          <TouchableOpacity 
+            onPress={()=>{onOpenWithWebBrowser(item)}}
+          > 
+          <Text style={styles.title}>{item.full_name}</Text>
+          </TouchableOpacity>
         </View>
       );
     }
@@ -50,7 +81,7 @@ export const HomeScreen = ()=>{
             </TouchableOpacity>
             <View style={{flex:1, flexDirection:"column"}}>
               <TextInput 
-                onChangeText= {(filter) => dispatch(updateFilter(filter))} 
+                onChangeText= {(filter) => {fetchRepos(dispatch,filter,comparisonList);}} 
                 placeholder="Search Repositories"
                 style={styles.searchInput} 
               />
@@ -112,7 +143,8 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
   },
   container:{
-    flex: 1
+    flex: 1,
+    paddingTop: Constants.statusBarHeight,
   },
   searchBar:{
     flexDirection:"row", 
