@@ -6,73 +6,106 @@ import {openInBrowser} from '../handlers/openInBrowser'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons';
 import {onShare} from '../handlers/onShare'
+import { useDispatch } from "react-redux"
+import {removeFromComparison} from "../redux/slices/searchSlice"
+
 
 const ScreenWidth = Dimensions.get("window").width;
-const ScreenHeight = Dimensions.get("window").height;
 
-export const ComparisonCard = (item)=>{
+export const ComparisonCard = ({item})=>{
+
+    // Get data from the redux store
+    const dispatch = useDispatch();
+    
+    const handleDate = (date)=>{
+        const d = new Date( date );
+        const y = new Date().getFullYear() - d.getFullYear();
+        if(y){
+            return y+" years ago ";
+        } 
+        else if(d.getMonth()){
+            return d.getMonth()+" month ago ";
+        }
+        else if(d.getDay()){
+            return d.getDay()+" days ago ";
+        }
+        else if(d.getHours()){
+            return d.getHours()+" hours ago ";
+        }
+        else if(d.getMinutes()){
+            return d.getMinutes()+" minutes ago ";
+        }                
+        else{
+            return d.getSeconds()+" seconds ago ";
+        }
+    }
+
+    const numberToComma = (num)=>{
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     return(
         <View style={styles.mainContainer}>
-            <View style={styles.head}>
-                <Text onPress={()=>{openInBrowser(item)}}style={styles.title}>{item.full_name}</Text>
-                <Image source={{ uri: "https://avatars.githubusercontent.com/u/139426?v=4" }} style = {styles.image} />
-            </View>
+            <TouchableOpacity onPress={()=>{openInBrowser(item)}} style={styles.head}>
+                <Text style={styles.title}>{item.full_name}</Text>
+                <Image source={{ uri: item.owner.avatar_url }} style = {styles.image} />
+            </TouchableOpacity>
             <View style={styles.body}>
                 <View style={styles.containerHorizontal}>
                     <Ionicons style={styles.star}name="star" size={24} color="#202020"/>
-                    <Text onPress={()=>{openInBrowser(item)}} style={styles.title}>angular/angular.js</Text>
+                    <Text onPress={()=>{openInBrowser(item)}} style={styles.title}>Stars</Text>
                 </View>
-                <Text style={styles.title}>190,121</Text>
+                <Text style={styles.title}>{numberToComma(item.stargazers_count)}</Text>
             </View>
             <View style={styles.body}>
                 <View style={styles.containerHorizontal}>
                     <FontAwesome style={styles.fork} name="code-fork" size={24} color="#202020" />
-                    <Text style={styles.title}>angular</Text>
+                    <Text style={styles.title}>Forks</Text>
                 </View>
-                <Text style={styles.title}>190,121</Text>
+                <Text style={styles.title}>{numberToComma(item.forks_count)}</Text>
             </View>
             <View style={styles.body}>
                 <View style={styles.containerHorizontal}>
-                    <Ionicons style={styles.info} name="md-information-circle" size={24} color="#202020"/>
-                    <Text style={styles.title}>angu5678lar</Text>
+                    <Ionicons style={styles.issues} name="md-information-circle" size={24} color="#202020"/>
+                    <Text style={styles.title}>Open issues</Text>
                 </View>
-                <Text style={styles.title}>190,121</Text>
+                <Text style={styles.title}>{item.open_issues_count}</Text>
             </View>
             <View style={styles.body}>
                 <View style={styles.containerHorizontal}>
                     <Ionicons style={styles.calendar}name="calendar-sharp" size={24} color="#202020"/>
-                    <Text style={styles.title}>angular/</Text>
+                    <Text style={styles.title}>Age</Text>
                 </View>
-                <Text style={styles.title}>190,121</Text>
+                <Text style={styles.title}>{handleDate(item.created_at)}</Text>
             </View>
             <View style={styles.body}>
                 <View style={styles.containerHorizontal}>
                     <FontAwesome style={styles.plus} name="plus" size={24} color="#202020" />
-                    <Text style={styles.title}>angular</Text>
+                    <Text style={styles.title}>Last commit</Text>
                 </View>
-                <Text style={styles.title}>190,121</Text>
+                <Text style={styles.title}>{handleDate(item.updated_at)}</Text>
             </View>
             <View style={styles.body}>
                 <View style={styles.containerHorizontal}>
                     <FontAwesome style={styles.certificate} name="certificate" size={24} color="#202020" />
-                    <Text style={styles.title}>angular</Text>
+                    <Text style={styles.title}>License</Text>
                 </View>
-                <Text style={styles.title}>190,121</Text>
+                <Text style={styles.title}>{item.license?item.license.key.toUpperCase():"No License"}</Text>
             </View>
             <View style={styles.body}>
                 <View style={styles.containerHorizontal}>
                     <FontAwesome style={styles.language} name="language" size={24} color="#202020" />
-                    <Text style={styles.title}>angular</Text>
+                    <Text style={styles.title}>Language</Text>
                 </View>
-                <Text style={styles.title}>190,121</Text>
+                <Text style={styles.title}>{item.language}</Text>
             </View>
             <View style={styles.foot}>
                 <TouchableOpacity 
-                    onPress={()=>{console.log("pressed")}}
+                    onPress={()=>{dispatch(removeFromComparison(item))}}
                     style={styles.removeBtn}
                 >          
-                    <Ionicons name="md-add" size={24} color="black"/>
-                    <Text style={styles.removeBtnTxt} >Press to Remove</Text>
+                    <Ionicons style={styles.removeIcon}name="remove-circle-outline" size={21} color="black"/>
+                    <Text style={styles.removeBtnTxt} >Remove repo</Text>
                 </TouchableOpacity>                
                 <Ionicons onPress={()=>{onShare(item)}} name="share-social-sharp" size={24} color="#202020"/>
             </View>
@@ -82,6 +115,10 @@ export const ComparisonCard = (item)=>{
 
 
 const styles = StyleSheet.create({
+    removeIcon:{
+        paddingRight:3, 
+        alignSelf:"center"
+    },
     containerVertical:{
         flexDirection:"column",
         justifyContent:"center"
@@ -92,28 +129,35 @@ const styles = StyleSheet.create({
     },
     language:{
         marginLeft:2,
-        marginRight:9
+        marginRight:9,
+        alignSelf:"center"
     },
     certificate:{
         marginLeft:2,
-        marginRight:9
+        marginRight:9,
+        alignSelf:"center"
     },
     plus:{
         marginLeft:3,
-        marginRight:9
+        marginRight:9,
+        alignSelf:"center"
     },
     star:{
-        marginRight:5
+        marginRight:5,
+        alignSelf:"center"
     },
     fork:{
         marginLeft:7,
-        marginRight:8
+        marginRight:8,
+        alignSelf:"center"
     },
-    info:{
-        marginRight:6
+    issues:{
+        marginRight:6,
+        alignSelf:"center"
     },
     calendar:{
-        marginRight:7
+        marginRight:7,
+        alignSelf:"center"
     },
     mainContainer:{
         flexDirection:"column",
@@ -122,6 +166,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:10,
         paddingVertical:5,
         width:ScreenWidth*0.25,
+        marginLeft:ScreenWidth*0.04
     },
     containerHorizontal:{
         flexDirection:"row",
@@ -129,7 +174,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 17,
-        alignSelf:"center"
+        alignSelf:"center",
+        paddingVertical:5
     },
     image: {
         height: 30, 
@@ -147,7 +193,7 @@ const styles = StyleSheet.create({
     head:{
         backgroundColor:'white', 
         flexDirection:"row",
-        padding:10, 
+        paddingVertical:5, 
         paddingHorizontal:10,
         justifyContent:"space-between",
         borderBottomWidth: 3,
@@ -156,14 +202,14 @@ const styles = StyleSheet.create({
     body:{
         backgroundColor:'white', 
         flexDirection:"row",
-        padding:10, 
+        paddingVertical:5, 
         paddingHorizontal:10,
         justifyContent:"space-between",
     },
     foot:{
         backgroundColor:'white', 
         flexDirection:"row",
-        padding:10, 
+        paddingVertical:5, 
         paddingHorizontal:10,
         justifyContent:"space-evenly",
         borderTopWidth: 3,

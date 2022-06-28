@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import { View, SafeAreaView, ImageBackground, StyleSheet } from 'react-native'
-
 import background from './assets/background.png' // relative path to image 
 import Constants from 'expo-constants'
-import {openInBrowser} from '../MasterWorksApp/handlers/openInBrowser'
 import {SearchBar} from "./components/SearchBar"
 import {ComparisonList} from "./components/ComparisonList"
 

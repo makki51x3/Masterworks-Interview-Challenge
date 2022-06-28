@@ -1,15 +1,15 @@
 
-import { Dimensions, View, FlatList, Platform, TextInput, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
-import { useSelector, useDispatch } from "react-redux"
-import {openInBrowser} from '../handlers/openInBrowser'
-import { Ionicons } from '@expo/vector-icons'
-import { FontAwesome } from '@expo/vector-icons';
-import {onShare} from '../handlers/onShare'
+import { View, Dimensions, FlatList, StyleSheet } from 'react-native'
+import { useSelector } from "react-redux"
 import ComparisonCard from './ComparisonCard';
+
+const ScreenHeight = Dimensions.get("window").height;
 
 export const ComparisonList = () => {
 
     const comparisonList = useSelector((state) => state.searchReducer.comparisonList);
+
+    const renderCard = ({item}) => (<ComparisonCard item={item} />);
 
     return (
         <View style={styles.containerVertical}>
@@ -18,9 +18,8 @@ export const ComparisonList = () => {
                 showsHorizontalScrollIndicator={false}
                 horizontal = {true}
                 data={comparisonList}
-                renderItem={ComparisonCard}
+                renderItem={renderCard}
                 keyExtractor={item => item.id}  
-                // ListEmptyComponent={defaultSuggestion}
             /> 
         </View>
     );
@@ -30,7 +29,8 @@ export const ComparisonList = () => {
 const styles = StyleSheet.create({
     containerVertical:{
         flexDirection:"column",
-        justifyContent:"center"
+        justifyContent:"center",
+        marginTop:ScreenHeight*0.07
     },
 });
 
