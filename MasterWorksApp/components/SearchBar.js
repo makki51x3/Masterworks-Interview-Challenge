@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     padding:5, 
     paddingHorizontal:10,
     borderRadius:20,
-    marginTop:Platform.OS=="ios"||Platform.OS=="android"?ScreenHeight*0.01:ScreenHeight*0.04,
+    marginTop:Platform.OS=="ios"||Platform.OS=="android"?ScreenHeight*0.04:ScreenHeight*0.04,
     width:Platform.OS=="ios"||Platform.OS=="android"?"90%":"70%"
   },
   searchInput: {

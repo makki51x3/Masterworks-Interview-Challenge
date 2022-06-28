@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
         paddingHorizontal:10,
         paddingVertical:5,
         width:Platform.OS=="ios"||Platform.OS=="android"?ScreenWidth*0.7:ScreenWidth*0.25,
-        // height: ScreenHeight*0.4,
         marginLeft:ScreenWidth*0.04
     },
     containerHorizontal:{
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         borderRightWidth: 3,
         borderRightColor:"#f6f6f5",
-        justifyContent:"center"
+        alignSelf:"center"
     },   
     head:{
         backgroundColor:'white', 
