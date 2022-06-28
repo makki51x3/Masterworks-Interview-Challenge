@@ -1,19 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {arrayRemove} from "../../handlers/arrayRemove"
 
 const initialState = {
     suggestionsVisible: false,
     suggestionList:  [],
     comparisonList:[],
 };
-
-const arrayRemove = (arr, value) => { 
-    let x = arr.filter(function(ele){ 
-        console.log("ele: ",ele)
-        return ele.id != value.id; 
-    });
-    console.log(x);
-    return x;
-}
 
 export const searchSlice = createSlice({
   name: "searchBar",
@@ -39,7 +31,6 @@ export const searchSlice = createSlice({
         removeFromComparison:(state, action) => {
             let result = arrayRemove(state.comparisonList, action.payload);
             state.comparisonList = result
-            // state.comparisonList.pop()
         },
     }
 });

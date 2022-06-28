@@ -1,48 +1,23 @@
 
 
 
-import { Dimensions, View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
+import { Dimensions, Platform, View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 import {openInBrowser} from '../handlers/openInBrowser'
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons';
 import {onShare} from '../handlers/onShare'
 import { useDispatch } from "react-redux"
 import {removeFromComparison} from "../redux/slices/searchSlice"
-
+import {handleDate} from "../handlers/handleDate"
+import {numberToComma} from "../handlers/numberToComma"
 
 const ScreenWidth = Dimensions.get("window").width;
+const ScreenHeight = Dimensions.get("window").height;
 
 export const ComparisonCard = ({item})=>{
 
     // Get data from the redux store
     const dispatch = useDispatch();
-    
-    const handleDate = (date)=>{
-        const d = new Date( date );
-        const y = new Date().getFullYear() - d.getFullYear();
-        if(y){
-            return y+" years ago ";
-        } 
-        else if(d.getMonth()){
-            return d.getMonth()+" month ago ";
-        }
-        else if(d.getDay()){
-            return d.getDay()+" days ago ";
-        }
-        else if(d.getHours()){
-            return d.getHours()+" hours ago ";
-        }
-        else if(d.getMinutes()){
-            return d.getMinutes()+" minutes ago ";
-        }                
-        else{
-            return d.getSeconds()+" seconds ago ";
-        }
-    }
-
-    const numberToComma = (num)=>{
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
 
     return(
         <View style={styles.mainContainer}>
@@ -165,7 +140,8 @@ const styles = StyleSheet.create({
         backgroundColor:"white",
         paddingHorizontal:10,
         paddingVertical:5,
-        width:ScreenWidth*0.25,
+        width:Platform.OS=="ios"||Platform.OS=="android"?ScreenWidth*0.7:ScreenWidth*0.25,
+        // height: ScreenHeight*0.4,
         marginLeft:ScreenWidth*0.04
     },
     containerHorizontal:{

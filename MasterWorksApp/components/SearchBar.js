@@ -3,35 +3,32 @@ import {fetchRepos} from '../handlers/fetchRepos'
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector, useDispatch } from "react-redux"
 import {updateSuggestionsVisible,addToComparison} from "../redux/slices/searchSlice"
-import { View, FlatList, Platform, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, Dimensions, FlatList, Platform, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { defaultSuggestion } from '../components/defaultSuggestion'
 
+const ScreenHeight = Dimensions.get("window").height;
 
 export const SearchBar = ()=>{
+
+  const comparisonList = useSelector((state) => state.searchReducer.comparisonList);
 
   // Get data from the redux store
   const dispatch = useDispatch();
   const suggestionsVisible = useSelector((state) => state.searchReducer.suggestionsVisible);
   const suggestionList = useSelector((state) => state.searchReducer.suggestionList);
-  const comparisonList = useSelector((state) => state.searchReducer.comparisonList);
 
-  const defaultSuggestion = ()=>(
-    <View style={styles.item}>
-      <Text style={styles.title}>No Suggestions Available!</Text>
-    </View>
-  );
-
-  const renderItem = ({item}) => {
+  const renderSuggestion = ({item}) => {  
     if(comparisonList.includes(item)){
       return <></>
     }
     else{
       return(
         <TouchableOpacity 
-          onPress={()=>{dispatch(addToComparison(item))}}
-          style={styles.item}
+            onPress={()=>{dispatch(addToComparison(item))}}
+            style={styles.item}
         >          
-          <Ionicons name="md-add" size={24} color="black"/>
-          <Text style={styles.title}>{item.full_name}</Text>
+            <Ionicons name="md-add" size={24} color="black"/>
+            <Text style={styles.title}>{item.full_name}</Text>
         </TouchableOpacity>
       );
     }
@@ -72,7 +69,7 @@ export const SearchBar = ()=>{
               showsHorizontalScrollIndicator={true}
               horizontal = {true}
               data={suggestionList}
-              renderItem={renderItem}
+              renderItem={renderSuggestion}
               keyExtractor={item => item.id}  
               ListEmptyComponent={defaultSuggestion}
             /> 
@@ -115,6 +112,7 @@ const styles = StyleSheet.create({
     padding:5, 
     paddingHorizontal:10,
     borderRadius:20,
+    marginTop:Platform.OS=="ios"||Platform.OS=="android"?ScreenHeight*0.01:ScreenHeight*0.04,
     width:Platform.OS=="ios"||Platform.OS=="android"?"90%":"70%"
   },
   searchInput: {
