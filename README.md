@@ -76,17 +76,19 @@ The code makes use of functional programming, Hooks, redux for state management,
 
 ## Files and Directories
 
-- redux
+- Redux
 
-  - store
+  - Store
 
-  - slices
+  - Slices
   
-- components
+- Components
 
-- handlers
+- Handlers
 
-- screen
+- HomeScreen
+
+- Assets
 
 ## Redux Store
 
