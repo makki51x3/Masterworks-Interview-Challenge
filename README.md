@@ -44,15 +44,24 @@ A prototype SPA application that helps users find public repositories hosted on 
 # Usecase and Features 
 
 The application works on all platforms, is created using react and consists of a single screen. The user has the ability to search for the repo he wants, can add as many repos to the comparison as he wants, can remove repos from the comparison, can go directly to any of the repos Github page by clicking on their name, gets search suggestions to add while typing, can share the repository URL, and see information about the repos such as:
+
   • Organization/Owner avatar
-  • Repository full name
-  • Number of stars
-  • Number of forks
-  • Number of open issues
-  • Repository creation date
-  • Repository last update date
-  • The language the repository is developed in
-  • Repository license type
+
+• Repository full name
+
+• Number of stars
+
+• Number of forks
+
+• Number of open issues
+
+• Repository creation date
+
+• Repository last update date
+
+• The language the repository is developed in
+
+• Repository license type
 
 # UI/UX Design
 
@@ -85,7 +94,7 @@ The code makes use of functional programming, Hooks, redux for state management,
 
 # Build Tools
 
-I used Visual Studio Code to compile and run the code and the Expo framework to test the application on different screens and platforms it also allows for easy setup and quick run before moving to deployment. 
+I used Visual Studio Code to compile and run the code, react tool for debugging and the Expo framework to test the application on different screens and platforms it also allows for easy setup and quick run before moving to deployment. 
 
 # Documentation
 
@@ -94,6 +103,10 @@ I used Visual Studio Code to compile and run the code and the Expo framework to 
 • Create a Personal access token (To get more API requests)
 
 • Add the Personal access token to Authorization http header
+
+( Note that PAT was used because basic authentication is going to be deprecated soon )
+
+{ Disclaimer the PAT must not be stored directly in code, so a better approach must be decided such as signin with email or github account }
 
 # How to Run the App 
 
