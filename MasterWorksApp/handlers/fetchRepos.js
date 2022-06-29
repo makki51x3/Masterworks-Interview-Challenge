@@ -7,7 +7,7 @@ export const fetchRepos = (dispatch,filter) => {
     const config = { 
         headers: {
         'accept': 'application/vnd.github.v3+json', 
-        "Authorization": "token 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"
+        "Authorization": "token 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"
         },
     };
 
