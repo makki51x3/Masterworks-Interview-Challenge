@@ -6,8 +6,8 @@ export const fetchRepos = (dispatch,filter) => {
     // Setup required http headers
     const config = { 
         headers: {
-        'accept': 'application/vnd.github.v3+json', 
-        "Authorization": "token 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"
+            'accept': 'application/vnd.github.v3+json', 
+            "Authorization": "token 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"
         },
     };
 
@@ -20,7 +20,7 @@ export const fetchRepos = (dispatch,filter) => {
             }
         },
         (error) => { // on error
-            console.log(error);
+            // console.log(error);
             // alert("Problem on connecting to server!");
         }
     );
