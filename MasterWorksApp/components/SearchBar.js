@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   title: {
-    fontSize: 17,
+    fontSize: Platform.OS=="ios"||Platform.OS=="android"?15:18,
   },
   searchBar:{
     flexDirection:"row", 

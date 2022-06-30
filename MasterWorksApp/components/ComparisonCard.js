@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
         justifyContent:"center",
     },
     title: {
-        fontSize: 17,
+        fontSize: Platform.OS=="ios"||Platform.OS=="android"?14:17,
         alignSelf:"center",
         paddingVertical:5
     },
@@ -161,8 +161,6 @@ const styles = StyleSheet.create({
     },
     removeBtn: {
         flexDirection:"row",
-        borderRightWidth: 3,
-        borderRightColor:"#f6f6f5",
         alignSelf:"center"
     },   
     head:{
