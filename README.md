@@ -123,8 +123,8 @@ More information can be found here: https://docs.expo.dev/guides/sharing-preview
   ### *Link*
   exp://exp.host/@51x3/MasterWorksApp?release-channel=default
   ### *QR Code*
-  ![image](https://user-images.githubusercontent.com/96151955/176280324-20746911-6c25-4559-945c-64b2759d91a1.png)
-
+  ![Capture](https://user-images.githubusercontent.com/96151955/176670761-8ef8fb72-e076-465d-b743-8bb601b87a27.PNG)
+ 
 ## On Web
 
 More information can be found here: https://docs.expo.dev/get-started/installation/
