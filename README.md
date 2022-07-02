@@ -1,5 +1,3 @@
-# Masterworks Interview Challenge
-
 # Contents Table
 
 • Quick Video on The Web
